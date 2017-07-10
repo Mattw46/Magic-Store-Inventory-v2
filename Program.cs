@@ -9,15 +9,14 @@ namespace Assignment1
     {
         public static void Main(string[] args)
         {
-            bool running = true;
-            bool exit = false;
+            //bool running = true;
+            //bool exit = false;
 
             /* While current menu running and last called menu 
                not return true for exit */
-            while (running && !exit)
+            /*while (running && !exit)
             {
                 MainMenu main = new MainMenu();
-                //main.PrintMenu();
                 int input = main.GetMenuItem();
 
                 switch (input)
@@ -42,15 +41,17 @@ namespace Assignment1
                         running = false;
                         break;
                 }
-            }
+            }*/
 
             runTests();
         }
 
         public static void runTests()
         {
+            JsonReader jsr = new JsonReader();
+
             /* Testing Code starts here */
-            InventoryItem ii = new InventoryItem();
+            /*InventoryItem ii = new InventoryItem();
             ii.Id = 1;
             ii.Name = "Rabbit";
             ii.StockLevel = 5;
@@ -61,7 +62,7 @@ namespace Assignment1
             ii.ReStock(-1);
             Console.WriteLine(ii.StockLevel);
 
-            JsonReader jsr = new JsonReader();
+            //JsonReader jsr = new JsonReader();
             InventoryList il = (InventoryList)jsr.ReadInventoryFile("JSON\\owner_inventory.json");
 
             try
@@ -75,7 +76,7 @@ namespace Assignment1
             catch (NullReferenceException)
             {
                 Console.WriteLine("Invalid reference return");
-            }
+            }*/
 
             /* Test Stock Requests */
             StockRequestList srl = (StockRequestList)jsr.ReadRequestFile("JSON\\stockRequests.json");
@@ -86,7 +87,7 @@ namespace Assignment1
                 srl.PrintFilteredItems(true);
                 Console.WriteLine("\nattempt process request 1\n");
                 srl.ProcessRequest(1);
-                /*srl.PrintItems();*/
+                //srl.PrintItems();
             }
             catch (NullReferenceException)
             {

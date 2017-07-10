@@ -13,7 +13,7 @@ public class JsonReader
     {
         try { 
             var file = File.ReadAllText(filename);
-            Console.WriteLine(file.ToString());
+            //Console.WriteLine(file.ToString());
             InventoryList il = new InventoryList(file);
             return il;
         }

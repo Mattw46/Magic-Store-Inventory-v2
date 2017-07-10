@@ -21,7 +21,7 @@ public class StockRequestList
 
         foreach (var item in list)
         {
-            string line = $"{item.Id,-5}{item.Store,-15}{item.Product,-20}{item.Quantity,-25}{item.CurrentStock,-25}{item.GetAvailability(),-15}";
+            string line = $"{item.Id,-5}{item.Store,-15}{item.Product,-20}{item.Quantity,-25}{item.GetCurrentStock(),-25}{item.GetAvailability(),-15}";
             Console.WriteLine(line);
         }
     }
@@ -34,7 +34,7 @@ public class StockRequestList
         {
             if (item.GetAvailability() == filter)
             { 
-            string line = $"{item.Id,-5}{item.Store,-15}{item.Product,-20}{item.Quantity,-25}{item.CurrentStock,-25}{item.GetAvailability(),-15}";
+            string line = $"{item.Id,-5}{item.Store,-15}{item.Product,-20}{item.Quantity,-25}{item.GetCurrentStock(),-25}{item.GetAvailability(),-15}";
             Console.WriteLine(line);
             }
         }
