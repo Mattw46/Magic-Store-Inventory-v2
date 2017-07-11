@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 public class StockRequestList
 {
     List<StockRequest> list;
+    InventoryList inventory;
     JsonReader jsr;
      
     public StockRequestList(string JsonText)
@@ -13,6 +14,7 @@ public class StockRequestList
         list = JsonConvert.DeserializeObject<List<StockRequest>>(JsonText);
 
         jsr = new JsonReader();
+        inventory = (InventoryList) jsr.ReadInventoryFile("JSON\\owner_inventory.json");
     }
 
     public void PrintItems()
@@ -48,65 +50,79 @@ public class StockRequestList
         Console.WriteLine(new string('=', header.Length));
     }
 
-    public bool ProcessRequest(int id)
+    public void ProcessRequest(int id)
     {
-        InventoryList il = (InventoryList) jsr.ReadInventoryFile("JSON\\owner_inventory.json");
-        List<InventoryItem> ownerInventory = il.GetInventoryList();
-        
-        foreach (var item in list) // loop through stock requests
-        {
-            // if current item was selected and available
-            if (item.Id == id && item.GetAvailability() == true)
+        StockRequest toRemove = null;
+
+        foreach (var request in list) // interate stockRequests
+       {
+            if (request.Id == id && request.GetAvailability() == true)
             {
-                // loop through owners inventory
-                foreach(var product in ownerInventory)
+                // found correct stock request
+                var il = inventory.GetInventoryList();
+                foreach(var item in il)
                 {
-                    // if current item has same name as select request
-                    if(product.Name.Equals(item.Product))
+                    if (item.Name.Equals(request.Product))
                     {
-                        // deduct quantity requested from owners inventory
-                        product.StockLevel = product.StockLevel - item.Quantity;
+                        toRemove = request;
+                        // update store qty
+                        UpdateStore(request);
+                        // decrement owner qty
+                        UpdateOwner(request);
                     }
                 }
-                string jsonString = JsonConvert.SerializeObject(ownerInventory);
-                //jsr.WriteFile(jsonString, "JSON\\owner_inventory.json");
-
-                // add to store inventory
-                string filename = "JSON\\" + item.Store + "_Franchise_Inventory.json";
-                Console.WriteLine("filename: " + filename);
-
-                InventoryList receivingStore = (InventoryList)jsr.ReadInventoryFile(filename);
-                List<InventoryItem> store = receivingStore.GetInventoryList();
-
-                // loop to find poduct and call restock
-                foreach(var product in store)
-                {
-                    if(product.Name == item.Product)
-                    {
-                        product.ReStock(item.Quantity);
-                    }
-                }
-                jsonString = JsonConvert.SerializeObject(store);
-                jsr.WriteFile(jsonString, filename);
-
-                // remove stock request
-                list.Remove(item);
-                jsonString = JsonConvert.SerializeObject(store);
-                jsr.WriteFile(jsonString, "JSON\\stockRequests.json");
+                
             }
-            else
+        }
+        list.Remove(toRemove);
+        WriteStockRequest();
+        //return false;
+    }
+
+    public void UpdateStore(StockRequest request)
+    {
+        Console.WriteLine("Update store: " + request.Store + " by " + request.Quantity);
+        // open file
+        string filename = "JSON\\" + request.Store + "_Franchise_Inventory.json";
+        InventoryList StoreInventory = (InventoryList)jsr.ReadInventoryFile(filename);
+        List<InventoryItem> list = StoreInventory.GetInventoryList();
+        // update
+        foreach (var item in list)
+        {
+            if (item.Name.Equals(request.Product))
             {
-                return false;
+                Console.WriteLine("update: " + item.Id + " " + item.Name + " " + request.Quantity);
+                item.ReStock(request.Quantity);
+            }
+        }
+        
+        // write
+    }
+
+    public void UpdateOwner(StockRequest request)
+    {
+        Console.WriteLine("update owner: product " + request.Product + " qty " + request.Quantity);
+        // open file
+        string filename = "JSON\\owner_inventory.json";
+        InventoryList StoreInventory = (InventoryList)jsr.ReadInventoryFile(filename);
+        List<InventoryItem> list = StoreInventory.GetInventoryList();
+        // update
+        foreach (var item in list)
+        {
+            if (item.Name.Equals(request.Product))
+            {
+                Console.WriteLine("update: " + item.Id + " " + item.Name + " " + item.StockLevel + " " + request.Quantity);
+                item.StockLevel = item.StockLevel - request.Quantity;
             }
         }
 
-        return false;
+        // write
     }
 
-    public void WriteToFile(string filename)
+    public void WriteStockRequest()
     {
         string jsonString = JsonConvert.SerializeObject(list);
         JsonReader jsr = new JsonReader();
-        jsr.WriteFile(jsonString, filename);
+        jsr.WriteFile(jsonString, "JSON\\stockrequests.json");
     }
 }

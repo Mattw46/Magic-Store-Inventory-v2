@@ -87,7 +87,7 @@ namespace Assignment1
                 srl.PrintFilteredItems(true);
                 Console.WriteLine("\nattempt process request 1\n");
                 srl.ProcessRequest(1);
-                //srl.PrintItems();
+                srl.PrintItems();
             }
             catch (NullReferenceException)
             {
