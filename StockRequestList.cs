@@ -95,8 +95,9 @@ public class StockRequestList
                 item.ReStock(request.Quantity);
             }
         }
-        
+
         // write
+        WriteInventory(list, filename);
     }
 
     public void UpdateOwner(StockRequest request)
@@ -117,12 +118,19 @@ public class StockRequestList
         }
 
         // write
+        WriteInventory(list,filename);
     }
 
     public void WriteStockRequest()
     {
         string jsonString = JsonConvert.SerializeObject(list);
-        JsonReader jsr = new JsonReader();
+        //JsonReader jsr = new JsonReader();
         jsr.WriteFile(jsonString, "JSON\\stockrequests.json");
+    }
+
+    public void WriteInventory(List<InventoryItem> list, string filename)
+    {
+        string jsonString = JsonConvert.SerializeObject(list);
+        jsr.WriteFile(jsonString, filename);
     }
 }

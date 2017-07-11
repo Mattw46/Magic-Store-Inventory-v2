@@ -79,7 +79,7 @@ namespace Assignment1
             }*/
 
             /* Test Stock Requests */
-            StockRequestList srl = (StockRequestList)jsr.ReadRequestFile("JSON\\stockRequests.json");
+            /*StockRequestList srl = (StockRequestList)jsr.ReadRequestFile("JSON\\stockRequests.json");
             try
             {
                 srl.PrintItems();
@@ -92,9 +92,16 @@ namespace Assignment1
             catch (NullReferenceException)
             {
                 Console.WriteLine("Invalid reference return");
-            }
+            }*/
 
-            //JsonReader js = new JsonReader();
+            /* Test display all products */
+            InventoryList il = (InventoryList)jsr.ReadInventoryFile("JSON\\owner_inventory.json");
+            il.PrintItems();
+
+            il = (InventoryList)jsr.ReadInventoryFile("JSON\\CBD_Franchise_Inventory.json");
+            il.PrintFranchiseItems(4);
+
+            il.PrintLowStock(4);
 
             Console.ReadLine();
             /* Testing Code ends here*/

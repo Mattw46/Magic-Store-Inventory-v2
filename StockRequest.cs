@@ -7,15 +7,9 @@ public class StockRequest
     public string Store { get; set; }
     public string Product { get; set; }
     public int Quantity { get; set; }
-    //public int CurrentStock { get; set; }
-    //public int CurrentStock;
 
     public StockRequest()
 	{
-        // Get stock level from Owner_inventory
-        //this.CurrentStock = GetCurrentStock();
-
-        //Console.WriteLine("Current stock: " + CurrentStock);
     }
 
     public bool GetAvailability()
@@ -36,7 +30,6 @@ public class StockRequest
         List<InventoryItem> list = il.GetInventoryList();
         foreach (var item in list)
         {
-            //Console.WriteLine(item.Id + " == " + Id);
             if (item.Id == this.Id)
             {
                 return item.StockLevel;
