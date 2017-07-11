@@ -26,4 +26,25 @@ public class OwnerMenu : Screen
         Console.WriteLine("      5.    Exit\n\n");
         Console.WriteLine("Enter an option:");
     }
+
+    // testing below
+
+    public void DisplayStockRequests()
+    {
+
+    }
+
+    public void DisplayFilteredStockRequests()
+    {
+
+    }
+
+    public void DisplayPoducts()
+    {
+        JsonReader jsr = new JsonReader();
+        InventoryList il = (InventoryList)jsr.ReadInventoryFile("JSON\\owner_inventory.json");
+        //InventoryList il = new InventoryList();
+        il.PrintItems();
+        Console.ReadLine();
+    }
 }

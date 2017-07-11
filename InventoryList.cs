@@ -13,6 +13,7 @@ public class InventoryList
 
     public void PrintItems()
     {
+        Console.Clear();
         string header = $"{"ID",-5}{"Product",-25}{"CurrentStock",-25}";
         Console.WriteLine(header);
         Console.WriteLine(new string('-',header.Length));

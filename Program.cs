@@ -9,12 +9,12 @@ namespace Assignment1
     {
         public static void Main(string[] args)
         {
-            //bool running = true;
-            //bool exit = false;
+            bool running = true;
+            bool exit = false;
 
             /* While current menu running and last called menu 
                not return true for exit */
-            /*while (running && !exit)
+            while (running && !exit)
             {
                 MainMenu main = new MainMenu();
                 int input = main.GetMenuItem();
@@ -41,9 +41,9 @@ namespace Assignment1
                         running = false;
                         break;
                 }
-            }*/
+            }
 
-            runTests();
+            //runTests();
         }
 
         public static void runTests()
