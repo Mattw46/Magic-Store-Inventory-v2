@@ -41,13 +41,20 @@ public abstract class Screen
         return input;
     }
 
-    protected int GetInput()
+    /* returns -1 if enter pressed without input
+       this indicates to exit */
+    public int GetInput()
     {
         int number = 0;
 
         try
         {
-            number = int.Parse(Console.ReadLine());
+            string input = Console.ReadLine();
+            if (input.Equals(""))
+            {
+                return -1;
+            }
+            number = int.Parse(input);
         }
         catch (FormatException)
         {
@@ -55,5 +62,45 @@ public abstract class Screen
             return InvalidInputFormat;
         }
         return number;
+    }
+
+    public bool GetBoolInput()
+    {
+
+        bool validInput = false;
+        bool result = false;
+        while (!validInput)
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Filter to use True or False");
+            string input = Console.ReadLine();
+
+            switch (input)
+            {
+                case "TRUE":
+                    return true;
+                case "T":
+                    return true;
+                case "True":
+                    return true;
+                case "true":
+                    return true;
+                case "FALSE":
+                    return false;
+                case "F":
+                    return false;
+                case "False":
+                    return false;
+                case "false":
+                    return false;
+                default:
+                    Console.WriteLine("Invalid input: please retry\nPress any key to continue");
+                    Console.ReadLine();
+                    break;
+        }
+        }
+        
+
+        return result;
     }
 }

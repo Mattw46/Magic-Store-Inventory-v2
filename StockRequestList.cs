@@ -26,6 +26,7 @@ public class StockRequestList
             string line = $"{item.Id,-5}{item.Store,-15}{item.Product,-20}{item.Quantity,-25}{item.GetCurrentStock(),-25}{item.GetAvailability(),-15}";
             Console.WriteLine(line);
         }
+        Console.WriteLine("\nEnter request to process\n");
     }
 
     public void PrintFilteredItems(bool filter)
@@ -40,9 +41,10 @@ public class StockRequestList
             Console.WriteLine(line);
             }
         }
+        Console.WriteLine("\nEnter request to process\n");
     }
 
-    public void PrintHeader()
+    private void PrintHeader()
     {
         string header = $"{"ID",-5}{"Store",-15}{"Product",-20}{"Quantity",-25}{"Current Stock",-25}{"Stock Availability",-15}";
         Console.WriteLine("Stock Requests\n\n");
@@ -119,6 +121,11 @@ public class StockRequestList
 
         // write
         WriteInventory(list,filename);
+    }
+
+    public int GetListSize()
+    {
+        return list.Count - 1;
     }
 
     public void WriteStockRequest()

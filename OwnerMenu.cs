@@ -3,10 +3,12 @@
 public class OwnerMenu : Screen
 {
     int maxItems;
+    JsonReader jsr;
 
     public OwnerMenu()
     {
         maxItems = 5;
+        jsr = new JsonReader();
     }
 
     public override int GetMenuItem()
@@ -31,12 +33,60 @@ public class OwnerMenu : Screen
 
     public void DisplayStockRequests()
     {
+        bool running = true;
+        StockRequestList srl = (StockRequestList)jsr.ReadRequestFile("JSON\\stockRequests.json");
 
+        while (running)
+        {
+            Console.Clear();
+            srl.PrintItems();
+            int selected = GetInput();
+            if (selected > 0 && selected <= (srl.GetListSize() + 1))
+            {
+                // process
+                srl.ProcessRequest(selected);
+            }
+            else if (selected == -1)
+            {
+                running = false;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input try again\npress eny key to continue:");
+                Console.ReadLine();
+            }
+        }
     }
 
     public void DisplayFilteredStockRequests()
     {
+        bool filter;
+        filter = GetBoolInput();
 
+        bool running = true;
+        StockRequestList srl = (StockRequestList)jsr.ReadRequestFile("JSON\\stockRequests.json");
+
+        while (running)
+        {
+            Console.Clear();
+            srl.PrintItems();
+            int selected = GetInput();
+            if (selected > 0 && selected <= (srl.GetListSize() + 1))
+            {
+                // process
+                //srl.ProcessRequest(selected);
+                srl.PrintFilteredItems(filter);
+            }
+            else if (selected == -1)
+            {
+                running = false;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input try again\npress eny key to continue:");
+                Console.ReadLine();
+            }
+        }
     }
 
     public void DisplayPoducts()
@@ -45,6 +95,7 @@ public class OwnerMenu : Screen
         InventoryList il = (InventoryList)jsr.ReadInventoryFile("JSON\\owner_inventory.json");
         //InventoryList il = new InventoryList();
         il.PrintItems();
+        Console.WriteLine("\nPress Any Key To Continue\n");
         Console.ReadLine();
     }
 }
