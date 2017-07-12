@@ -69,13 +69,12 @@ public class OwnerMenu : Screen
         while (running)
         {
             Console.Clear();
-            srl.PrintItems();
+            srl.PrintFilteredItems(filter);
             int selected = GetInput();
             if (selected > 0 && selected <= (srl.GetListSize() + 1))
             {
                 // process
-                //srl.ProcessRequest(selected);
-                srl.PrintFilteredItems(filter);
+                srl.ProcessRequest(selected);
             }
             else if (selected == -1)
             {

@@ -32,6 +32,7 @@ public class StockRequestList
     public void PrintFilteredItems(bool filter)
     {
         PrintHeader();
+        Console.WriteLine("Filtered results by: "  + filter);
 
         foreach (var item in list)
         {
