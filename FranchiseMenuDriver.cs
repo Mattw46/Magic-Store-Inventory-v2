@@ -22,8 +22,8 @@ public class FranchiseMenuDriver
             switch (input)
             {
                 case 1:
-                    //DisplayInventory di = new DisplayInventory();
-                    //di.ProcessRequests();
+                    DisplayInventory();
+                    Console.ReadLine();
                     break;
                 case 2:
                     //DisplayInventoryThreshold dit = new DisplayInventoryThreshold();
@@ -50,9 +50,13 @@ public class FranchiseMenuDriver
         InventoryList list = null;
         while (list == null)
         {
-            list = GetInventoryList(GetStore());
+            string storeFile = GetStore();
+            Console.WriteLine("File is: " + storeFile);
+            list = GetInventoryList(storeFile);
+            Console.ReadLine();
         }
-        list.PrintFranchiseItems(4);
+        int threshold = GetThreshold();
+        list.PrintFranchiseItems(threshold);
     }
 
     public void DisplayInvenotryThreshold()
@@ -74,7 +78,7 @@ public class FranchiseMenuDriver
         Console.Clear();
         Console.WriteLine("Enter Store Name");
         string store = Console.ReadLine();
-        return "JSON\\" + store + "Franchise_Inventory.json";
+        return "JSON\\" + store + "_Franchise_Inventory.json";
     }
 
     public InventoryList GetInventoryList(string storeFile)
@@ -82,5 +86,27 @@ public class FranchiseMenuDriver
         JsonReader jsr = new JsonReader();
         InventoryList il = (InventoryList)jsr.ReadInventoryFile(storeFile);
         return il;
+    }
+
+    public int GetThreshold()
+    {
+        bool notValid = true;
+        int threshold = 0;
+        while (notValid)
+        {
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("Enter threshold for low stock:");
+                threshold = Int32.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input, only numbers accepted\npress any key to continue");
+                Console.ReadLine();
+            }
+            notValid = false;
+        }
+        return threshold;
     }
 }
