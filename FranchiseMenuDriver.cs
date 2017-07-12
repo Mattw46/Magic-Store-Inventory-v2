@@ -12,11 +12,12 @@ public class FranchiseMenuDriver
     public bool RunMenu()
     {
         bool exit = false;
-        OwnerMenu om = new OwnerMenu();
+        //OwnerMenu om = new OwnerMenu();
+        FranchiseMenu fm = new FranchiseMenu();
 
         while (CurrentMenu)
         {
-            int input = om.GetMenuItem();
+            int input = fm.GetMenuItem();
 
             switch (input)
             {
@@ -42,5 +43,44 @@ public class FranchiseMenuDriver
             }
         }
         return exit;
+    }
+
+    public void DisplayInventory()
+    {
+        InventoryList list = null;
+        while (list == null)
+        {
+            list = GetInventoryList(GetStore());
+        }
+        list.PrintFranchiseItems(4);
+    }
+
+    public void DisplayInvenotryThreshold()
+    {
+        JsonReader jsr = new JsonReader();
+        InventoryList il = (InventoryList)jsr.ReadInventoryFile("JSON\\owner_inventory.json");
+    }
+
+    public void AddNewInvenotry()
+    {
+        JsonReader jsr = new JsonReader();
+        InventoryList il = (InventoryList)jsr.ReadInventoryFile("JSON\\owner_inventory.json");
+    }
+
+    /* prompts user for store name
+       returns file name for store inventory*/
+    public string GetStore()
+    {
+        Console.Clear();
+        Console.WriteLine("Enter Store Name");
+        string store = Console.ReadLine();
+        return "JSON\\" + store + "Franchise_Inventory.json";
+    }
+
+    public InventoryList GetInventoryList(string storeFile)
+    {
+        JsonReader jsr = new JsonReader();
+        InventoryList il = (InventoryList)jsr.ReadInventoryFile(storeFile);
+        return il;
     }
 }
