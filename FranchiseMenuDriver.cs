@@ -12,7 +12,6 @@ public class FranchiseMenuDriver
     public bool RunMenu()
     {
         bool exit = false;
-        //OwnerMenu om = new OwnerMenu();
         FranchiseMenu fm = new FranchiseMenu();
 
         while (CurrentMenu)
@@ -26,12 +25,12 @@ public class FranchiseMenuDriver
                     Console.ReadLine();
                     break;
                 case 2:
-                    //DisplayInventoryThreshold dit = new DisplayInventoryThreshold();
-                    //dit.ProcessRequests();
+                    DisplayInvenotryThreshold();
+                    Console.ReadLine();
                     break;
                 case 3:
-                    //AddNewInventoryItem AddNew = new AddNewInventoryItem();
-                    //AddNew.ProcessRequests();
+                    AddNewInvenotry();
+                    Console.ReadLine();
                     break;
                 case 4:
                     CurrentMenu = false;
@@ -51,9 +50,7 @@ public class FranchiseMenuDriver
         while (list == null)
         {
             string storeFile = GetStore();
-            Console.WriteLine("File is: " + storeFile);
             list = GetInventoryList(storeFile);
-            Console.ReadLine();
         }
         int threshold = GetThreshold();
         list.PrintFranchiseItems(threshold);
@@ -75,9 +72,19 @@ public class FranchiseMenuDriver
        returns file name for store inventory*/
     public string GetStore()
     {
-        Console.Clear();
-        Console.WriteLine("Enter Store Name");
-        string store = Console.ReadLine();
+        bool validStore = false;
+        string store = "";
+
+        while (!validStore)
+        {
+            Console.Clear();
+            Console.WriteLine("Enter Store Name");
+            store = Console.ReadLine();
+            if (ValidateStore(store))
+            {
+                validStore = true;
+            }
+        }
         return "JSON\\" + store + "_Franchise_Inventory.json";
     }
 
@@ -108,5 +115,23 @@ public class FranchiseMenuDriver
             notValid = false;
         }
         return threshold;
+    }
+
+    public bool ValidateStore(string input)
+    {
+        switch (input)
+        {
+            case "CBD":
+                return true;
+            case "North":
+                return true;
+            case "South":
+                return true;
+            case "West":
+                return true;
+            case "Olinda":
+                return true;
+        }
+        return false;
     }
 }

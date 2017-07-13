@@ -43,6 +43,7 @@ public class InventoryList
             string line = $"{item.Id,-5}{item.Name,-25}{item.StockLevel,-15}{restock,-10}";
             Console.WriteLine(line);
         }
+
     }
 
     public void PrintLowStock(int threshold)
